@@ -205,10 +205,12 @@ const AddServiceEventModal = ({
   // Ensure linkedPartIds is always an array
   const safeLinkedPartIds = linkedPartIds || [];
 
-  // Filter parts based on search term
+  // Filter parts based on search term, excluding archived parts
   const filteredParts = parts.filter(part =>
-    part.part.toLowerCase().includes(partsSearchTerm.toLowerCase()) ||
-    (part.vendor && part.vendor.toLowerCase().includes(partsSearchTerm.toLowerCase()))
+    !part.archived && (
+      part.part.toLowerCase().includes(partsSearchTerm.toLowerCase()) ||
+      (part.vendor && part.vendor.toLowerCase().includes(partsSearchTerm.toLowerCase()))
+    )
   );
 
   // Toggle part selection

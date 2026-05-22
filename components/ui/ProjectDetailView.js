@@ -24,7 +24,8 @@ const ProjectDetailView = ({
   setEditingTodoText,
   newTodoText,
   setNewTodoText,
-  onNavigateToTab
+  onNavigateToTab,
+  onViewPart
 }) => {
   const linkedParts = parts.filter(part => part.projectId === project.id);
   const linkedPartsTotal = calculateProjectTotal(project.id, parts);
@@ -51,9 +52,9 @@ const ProjectDetailView = ({
   const localStorageKey = `partsViewMode_${project.id}`;
   const [partsViewMode, setPartsViewMode] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem(localStorageKey) || 'cards';
+      return localStorage.getItem(localStorageKey) || 'table';
     }
-    return 'cards';
+    return 'table';
   });
 
   const togglePartsViewMode = () => {
@@ -1057,11 +1058,12 @@ const ProjectDetailView = ({
                   {linkedParts.map((part, index) => (
                     <tr
                       key={part.id}
+                      onClick={() => onViewPart && onViewPart(part)}
                       className={`border-t ${
                         darkMode
-                          ? `border-gray-600 bg-gray-900`
-                          : `border-gray-200 bg-white`
-                      }`}
+                          ? `border-gray-600 bg-gray-900 ${onViewPart ? 'hover:bg-gray-800' : ''}`
+                          : `border-gray-200 bg-white ${onViewPart ? 'hover:bg-gray-50' : ''}`
+                      } ${onViewPart ? 'cursor-pointer' : ''}`}
                     >
                       <td className={`px-3 py-2 ${darkMode ? 'text-gray-100' : 'text-gray-800'}`}>
                         <div>{part.part}{(part.quantity || 1) > 1 ? ` ×${part.quantity}` : ''}</div>
@@ -1115,9 +1117,10 @@ const ProjectDetailView = ({
             {linkedParts.map((part) => (
               <div
                 key={part.id}
+                onClick={() => onViewPart && onViewPart(part)}
                 className={`p-4 rounded-lg border flex flex-col ${
                   darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-300'
-                }`}
+                } ${onViewPart ? 'cursor-pointer' : ''}`}
               >
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex-1">

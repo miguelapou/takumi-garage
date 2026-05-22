@@ -45,6 +45,8 @@ const ProjectDetailModal = ({
   setActiveTab,
   archivePart,
   onAddPart,
+  setShowPartDetailModal,
+  setViewingPart,
   onClose
 }) => {
   const [showNotesModal, setShowNotesModal] = useState(false);
@@ -301,6 +303,10 @@ const ProjectDetailModal = ({
                     onClose();
                   });
                   setActiveTab(tab);
+                }}
+                onViewPart={(part) => {
+                  setViewingPart(part);
+                  setShowPartDetailModal(true);
                 }}
               />
             </div>

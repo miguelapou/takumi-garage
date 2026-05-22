@@ -220,7 +220,7 @@ const useProjects = (userId, toast, isDemo = false) => {
    * Get projects for a specific vehicle
    */
   const getVehicleProjects = (vehicleId) => {
-    return projects.filter(project => project.vehicle_id === vehicleId);
+    return projects.filter(project => project.vehicle_id === vehicleId && !project.archived);
   };
 
   /**

@@ -74,7 +74,9 @@ const ProjectsTab = ({
   setConfirmDialog,
   setActiveTab,
   archivePart,
-  onAddPartFromProject
+  onAddPartFromProject,
+  setShowPartDetailModal,
+  setViewingPart
 }) => {
   return (
     <div
@@ -543,6 +545,8 @@ const ProjectsTab = ({
           setActiveTab={setActiveTab}
           archivePart={archivePart}
           onAddPart={onAddPartFromProject}
+          setShowPartDetailModal={setShowPartDetailModal}
+          setViewingPart={setViewingPart}
           onClose={() => {
             setShowProjectDetailModal(false);
             setViewingProject(null);
