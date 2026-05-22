@@ -2247,6 +2247,7 @@ const Shako = ({ isDemo = false }) => {
           setTrackingModalPartId={setTrackingModalPartId}
           hasUnsavedPartChanges={hasUnsavedPartChanges}
           createPartDirectly={createPartDirectly}
+          isNestedModal={showProjectDetailModal || showVehicleDetailModal}
         />
 
         </>

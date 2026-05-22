@@ -61,7 +61,8 @@ const PartDetailModal = ({
   setTrackingModalPartId,
   hasUnsavedPartChanges,
   onCourierChange,
-  createPartDirectly
+  createPartDirectly,
+  isNestedModal = false
 }) => {
   const [isRefreshingTracking, setIsRefreshingTracking] = useState(false);
   const [trackingError, setTrackingError] = useState(null);
@@ -570,16 +571,15 @@ const PartDetailModal = ({
   if (!isOpen && !isModalClosing) {
     wasOpen.current = false;
   }
-  if ((!isOpen && !(isModalClosing && wasOpen.current)) || !viewingPart) return null;
+  if ((!isOpen && !(isModalClosing && wasOpen.current && !isNestedModal)) || !viewingPart) return null;
 
   return (
     <div
       className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 modal-backdrop ${
-        isModalClosing ? 'modal-backdrop-exit' : 'modal-backdrop-enter'
+        isModalClosing && !isNestedModal ? 'modal-backdrop-exit' : 'modal-backdrop-enter'
       }`}
-      onClick={() =>
-        handleCloseModal(() => {
-          // Check for unsaved changes
+      onClick={() => {
+        const closeDirectly = () => {
           if (hasUnsavedPartChanges && hasUnsavedPartChanges()) {
             setConfirmDialog({
               isOpen: true,
@@ -602,12 +602,17 @@ const PartDetailModal = ({
           setPartDetailView('detail');
           setEditingPart(null);
           setOriginalPartData(null);
-        })
-      }
+        };
+        if (isNestedModal) {
+          closeDirectly();
+        } else {
+          handleCloseModal(closeDirectly);
+        }
+      }}
     >
       <div
         className={`rounded-lg shadow-xl max-w-4xl w-full modal-content overflow-hidden grid ${
-          isModalClosing ? 'modal-popup-exit' : 'modal-popup-enter'
+          isModalClosing && !isNestedModal ? 'modal-popup-exit' : 'modal-popup-enter'
         } ${darkMode ? 'bg-gray-800' : 'bg-slate-200'}`}
         style={{
           gridTemplateRows:
@@ -641,9 +646,8 @@ const PartDetailModal = ({
             </h2>
             <div className="flex items-center gap-3">
               <button
-                onClick={() =>
-                  handleCloseModal(() => {
-                    // Check for unsaved changes
+                onClick={() => {
+                  const closeDirectly = () => {
                     if (hasUnsavedPartChanges && hasUnsavedPartChanges()) {
                       setConfirmDialog({
                         isOpen: true,
@@ -666,8 +670,13 @@ const PartDetailModal = ({
                     setPartDetailView('detail');
                     setEditingPart(null);
                     setOriginalPartData(null);
-                  })
-                }
+                  };
+                  if (isNestedModal) {
+                    closeDirectly();
+                  } else {
+                    handleCloseModal(closeDirectly);
+                  }
+                }}
                 className={`transition-colors flex-shrink-0 ${
                   darkMode
                     ? 'text-gray-400 hover:text-gray-300'
