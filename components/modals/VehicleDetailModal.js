@@ -474,6 +474,16 @@ const VehicleDetailModal = ({
     }
   }, [isOpen]);
 
+  const maybeUpdateOdometer = async (odometerInput) => {
+    if (!odometerInput) return;
+    const rounded = Math.round(parseInt(odometerInput, 10) / 1000) * 1000;
+    const current = viewingVehicle.odometer_range ? parseInt(viewingVehicle.odometer_range, 10) : 0;
+    if (rounded > current) {
+      await updateVehicle(viewingVehicle.id, { odometer_range: rounded });
+      setViewingVehicle(prev => ({ ...prev, odometer_range: rounded }));
+    }
+  };
+
   // Handle generating vehicle report PDF
   const handleGenerateReport = async (saveToDocuments) => {
     if (!viewingVehicle || generatingReport) return;
@@ -1535,8 +1545,11 @@ const VehicleDetailModal = ({
                         linked_part_ids: newEventLinkedParts.length > 0 ? newEventLinkedParts : null,
                         cost: newEventCost ? parseFloat(newEventCost) : null
                       });
-                      if (result && newEventLinkedParts.length > 0) {
-                        await Promise.all(newEventLinkedParts.map(partId => archivePart(partId, true)));
+                      if (result) {
+                        if (newEventLinkedParts.length > 0) {
+                          await Promise.all(newEventLinkedParts.map(partId => archivePart(partId, true)));
+                        }
+                        await maybeUpdateOdometer(newEventOdometer);
                       }
                       return result;
                     } else {
@@ -1549,8 +1562,11 @@ const VehicleDetailModal = ({
                         newEventLinkedParts,
                         newEventCost
                       );
-                      if (result && newEventLinkedParts.length > 0) {
-                        await Promise.all(newEventLinkedParts.map(partId => archivePart(partId, true)));
+                      if (result) {
+                        if (newEventLinkedParts.length > 0) {
+                          await Promise.all(newEventLinkedParts.map(partId => archivePart(partId, true)));
+                        }
+                        await maybeUpdateOdometer(newEventOdometer);
                       }
                       return result;
                     }
@@ -3757,6 +3773,7 @@ const VehicleDetailModal = ({
                       if (newEventLinkedParts.length > 0) {
                         await Promise.all(newEventLinkedParts.map(partId => archivePart(partId, true)));
                       }
+                      await maybeUpdateOdometer(newEventOdometer);
                       handleCloseServiceEventModal();
                     }
                   }}
