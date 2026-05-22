@@ -1986,42 +1986,6 @@ const Shako = ({ isDemo = false }) => {
           }}
         />
 
-        {/* Part Detail Modal */}
-        <PartDetailModal
-          isOpen={showPartDetailModal}
-          darkMode={darkMode}
-          viewingPart={viewingPart}
-          editingPart={editingPart}
-          partDetailView={partDetailView}
-          setPartDetailView={setPartDetailView}
-          setEditingPart={setEditingPart}
-          setOriginalPartData={setOriginalPartData}
-          projects={projects}
-          vehicles={vehicles}
-          parts={parts}
-          uniqueVendors={uniqueVendors}
-          vendorColors={vendorColors}
-          isModalClosing={isModalClosing}
-          handleCloseModal={handleCloseModal}
-          saveEditedPart={handleSaveEditedPart}
-          deletePart={deletePart}
-          archivePart={archivePart}
-          setConfirmDialog={setConfirmDialog}
-          setShowPartDetailModal={setShowPartDetailModal}
-          setViewingPart={setViewingPart}
-          getStatusColor={getStatusColor}
-          getStatusIcon={getStatusIcon}
-          getStatusText={getStatusText}
-          onRefreshTracking={updatePartTrackingData}
-          onCourierChange={updateCourierOverride}
-          onStatusChange={handlePartDetailStatusChange}
-          filteredParts={filteredParts}
-          setShowTrackingModal={setShowTrackingModal}
-          setTrackingModalPartId={setTrackingModalPartId}
-          hasUnsavedPartChanges={hasUnsavedPartChanges}
-          createPartDirectly={createPartDirectly}
-        />
-
         {/* PARTS TAB CONTENT */}
         {activeTab === 'parts' && (
           <PartsTab
@@ -2244,8 +2208,46 @@ const Shako = ({ isDemo = false }) => {
             setActiveTab={setActiveTab}
             archivePart={archivePart}
             onAddPartFromProject={handleAddPartFromVehicleProject}
+            setShowPartDetailModal={setShowPartDetailModal}
+            setViewingPart={setViewingPart}
           />
         )}
+
+        {/* Part Detail Modal - rendered last so it appears above all other modals */}
+        <PartDetailModal
+          isOpen={showPartDetailModal}
+          darkMode={darkMode}
+          viewingPart={viewingPart}
+          editingPart={editingPart}
+          partDetailView={partDetailView}
+          setPartDetailView={setPartDetailView}
+          setEditingPart={setEditingPart}
+          setOriginalPartData={setOriginalPartData}
+          projects={projects}
+          vehicles={vehicles}
+          parts={parts}
+          uniqueVendors={uniqueVendors}
+          vendorColors={vendorColors}
+          isModalClosing={isModalClosing}
+          handleCloseModal={handleCloseModal}
+          saveEditedPart={handleSaveEditedPart}
+          deletePart={deletePart}
+          archivePart={archivePart}
+          setConfirmDialog={setConfirmDialog}
+          setShowPartDetailModal={setShowPartDetailModal}
+          setViewingPart={setViewingPart}
+          getStatusColor={getStatusColor}
+          getStatusIcon={getStatusIcon}
+          getStatusText={getStatusText}
+          onRefreshTracking={updatePartTrackingData}
+          onCourierChange={updateCourierOverride}
+          onStatusChange={handlePartDetailStatusChange}
+          filteredParts={filteredParts}
+          setShowTrackingModal={setShowTrackingModal}
+          setTrackingModalPartId={setTrackingModalPartId}
+          hasUnsavedPartChanges={hasUnsavedPartChanges}
+          createPartDirectly={createPartDirectly}
+        />
 
         </>
         )}

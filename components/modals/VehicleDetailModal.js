@@ -134,7 +134,9 @@ const VehicleDetailModal = ({
   toast,
   setActiveTab,
   archivePart,
-  onAddPartFromProject
+  onAddPartFromProject,
+  setShowPartDetailModal,
+  setViewingPart
 }) => {
   // State for image gallery navigation
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -1938,6 +1940,10 @@ const VehicleDetailModal = ({
                       setViewingVehicle(null);
                     });
                     setActiveTab(tab);
+                  }}
+                  onViewPart={(part) => {
+                    setViewingPart(part);
+                    setShowPartDetailModal(true);
                   }}
                 />
               </div>
