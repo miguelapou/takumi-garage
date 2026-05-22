@@ -2142,6 +2142,8 @@ const Shako = ({ isDemo = false }) => {
             setActiveTab={setActiveTab}
             archivePart={archivePart}
             onAddPartFromProject={handleAddPartFromProject}
+            setShowPartDetailModal={setShowPartDetailModal}
+            setViewingPart={setViewingPart}
           />
         )}
 
