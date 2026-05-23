@@ -83,12 +83,12 @@ export const toSentenceCase = (str) => {
       if (TITLE_CASE_ACRONYMS.has(word.toUpperCase())) {
         return word.toUpperCase();
       }
-      // First word: capitalize first letter, lowercase rest
+      // First word: capitalize first letter, preserve rest as typed
       if (index === 0) {
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        return word.charAt(0).toUpperCase() + word.slice(1);
       }
-      // All other words: lowercase
-      return word.toLowerCase();
+      // All other words: preserve user's capitalization
+      return word;
     })
     .join(' ');
 };
